@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-	<key>entry</key><dict>
-		<key>cell</key><string>PSLinkCell</string>
-		<key>label</key><string>BegoneCIA</string>
-		<key>icon</key><string>BegoneCIA.png</string>
-	</dict>
 	<key>title</key><string>BegoneCIA</string>
 	<key>items</key><array>
 		<dict>
@@ -47,10 +42,7 @@
 			<key>footerText</key><string>Excluded apps can always use the camera and location. The microphone is unblocked while an excluded app is in the foreground.</string>
 		</dict>
 		<dict>
-			<key>cell</key><string>PSLinkListCell</string>
-			<key>bundle</key><string>AltList</string>
-			<key>isController</key><true/>
-			<key>overridePrincipalClass</key><true/>
+			<key>cell</key><string>PSLinkCell</string>
 			<key>detail</key><string>ATLApplicationListMultiSelectionController</string>
 			<key>label</key><string>Excluded Apps</string>
 			<key>defaults</key><string>me.nepeta.begonecia</string>

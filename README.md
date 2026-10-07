@@ -22,11 +22,11 @@ It replaces `com.johndie.begonecia` and `me.nepeta.begonecia`. Respring after in
 
 | Device | iOS | Jailbreak | Build |
 | --- | --- | --- | --- |
-| iPhone 15 Pro Max | 17.3 | Dopamine (rootless) | rootless 1.1.1 |
-| iPhone 12 | 15.2.1 | rootless | rootless 1.1.1 |
-| iPhone X | 13.3 | rootful, Substitute | legacy rootful 1.1.1 |
+| iPhone 15 Pro Max | 17.3 | Dopamine (rootless) | rootless 1.1.3 |
+| iPhone 12 | 15.2.1 | rootless | rootless 1.1.3 |
+| iPhone X | 13.3 | rootful, Substitute | legacy rootful 1.1.3 |
 
-1.1.2 has the same binaries as 1.1.1; only the text of the settings pane changed (German to English).
+1.1.3 fixes the Excluded Apps list in Settings (empty on rootless, no switches on rootful). The tweak and the Control Center module are the same binaries as in 1.1.1.
 
 ## Limits
 
@@ -37,6 +37,10 @@ It replaces `com.johndie.begonecia` and `me.nepeta.begonecia`. Respring after in
 ## How it works
 
 Only SpringBoard reads the preferences (domain `me.nepeta.begonecia`). It publishes the outcome as notify state, which sandboxed apps can read; every other process only follows that state. See `names.h` for the names and the top of `Tweak.m` for the rest.
+
+## Settings pane
+
+Below iOS 17 the pane is a plain PreferenceLoader plist (`prefs/BegoneCIA.plist`) that opens AltList's app list. On iOS 17 Settings did not load AltList for such a pane, so the rootless package also carries a small settings bundle that links AltList (`prefs/BCPrefs.m`, `prefs/Root.plist`). Both entries have a PreferenceLoader version filter, so only the fitting one shows. iOS 16 gets the plist pane and was not tested. A change to the settings has to be made in both `prefs/BegoneCIA.plist` and `prefs/Root.plist`.
 
 ## Build
 

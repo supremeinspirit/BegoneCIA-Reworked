@@ -1,5 +1,5 @@
 SHELL := /var/jb/bin/sh
-VERSION = 1.1.2
+VERSION = 1.1.3
 # The Control Center module needs the private ControlCenterUIKit stub and headers from Theos
 SDK ?= /var/jb/theos/sdks/iPhoneOS16.5.sdk
 CCINCLUDE ?= /var/jb/theos/vendor/include
@@ -8,8 +8,14 @@ TWEAKFLAGS = $(COMMON) -fno-objc-arc -dynamiclib -framework Foundation -framewor
 	-framework AudioToolbox -framework AVFoundation -framework CoreLocation
 MODULEFLAGS = $(COMMON) -I$(CCINCLUDE) -F$(SDK)/System/Library/PrivateFrameworks -fobjc-arc -bundle \
 	-framework UIKit -framework Foundation -framework ControlCenterUIKit
+# AltList is linked by path so that it is loaded together with the settings bundle
+ALTLIST ?= /var/jb/Library/Frameworks/AltList.framework/AltList
+PREFSFLAGS = $(COMMON) -fno-objc-arc -bundle -framework Foundation $(ALTLIST) -rpath /var/jb/Library/Frameworks
+# kCFCoreFoundationVersionNumber of iOS 17.0; below it Settings gets the plist-only pane, from it on the bundle
+CF_IOS17 = 2000
 CLIFLAGS = $(COMMON) -arch arm64 -framework CoreFoundation
-SOURCES = Tweak.m ccmodule/BCToggleModule.m ccmodule/Icon.png ccmodule/Icon@2x.png cli.c names.h
+SOURCES = Tweak.m ccmodule/BCToggleModule.m ccmodule/Icon.png ccmodule/Icon@2x.png cli.c names.h prefs/BegoneCIA.plist
+PREFS_SOURCES = prefs/BCPrefs.m prefs/Root.plist prefs/entry.plist prefs/Info.plist
 
 # $(call build,<output dir>,<arch flags>,<min iOS>)
 define build
@@ -35,9 +41,29 @@ define package
 	chmod -R 755 $(2) && find $(2) -name '*.plist' -o -name '*.png' | xargs chmod 644
 endef
 
-deb: $(SOURCES)
+# The rootless package carries two settings panes and PreferenceLoader shows the one that fits the iOS version:
+# the plist-only pane (BegoneCIA.plist, as on rootful) below iOS 17, and a bundle that links AltList
+# (prefs/Root.plist holds the same items) from iOS 17 on, where Settings fails to load AltList for a plist-only pane.
+PL = pkg/var/jb/Library/PreferenceLoader/Preferences
+PB = pkg/var/jb/Library/PreferenceBundles/BegoneCIAPrefs.bundle
+deb: $(SOURCES) $(PREFS_SOURCES)
 	$(call build,build/rootless,-arch arm64 -arch arm64e,15.0)
+	clang $(PREFSFLAGS) -arch arm64 -arch arm64e -miphoneos-version-min=15.0 -o build/rootless/BegoneCIAPrefs prefs/BCPrefs.m
+	ldid -S build/rootless/BegoneCIAPrefs
 	$(call package,build/rootless,pkg,/var/jb)
+	# Settings only looks for AltList under /System/Library/PreferenceBundles, and on rootless
+	# nothing redirects that for a cell inside the pane, so the bundle is named by its full path
+	sed -i -e 's|<key>bundle</key><string>AltList</string>|<key>lazy-bundle</key><string>/var/jb/Library/PreferenceBundles/AltList.bundle</string>|' \
+		-e 's|<key>entry</key><dict>|&<key>pl_filter</key><dict><key>CoreFoundationVersion</key><array><real>0</real><real>$(CF_IOS17)</real></array></dict>|' \
+		$(PL)/BegoneCIA.plist
+	grep -q lazy-bundle $(PL)/BegoneCIA.plist && grep -q pl_filter $(PL)/BegoneCIA.plist
+	sed 's|<key>entry</key><dict>|&<key>pl_filter</key><dict><key>CoreFoundationVersion</key><array><real>$(CF_IOS17)</real></array></dict>|' \
+		prefs/entry.plist > $(PL)/BegoneCIA17.plist
+	grep -q pl_filter $(PL)/BegoneCIA17.plist
+	mkdir -p $(PB)
+	cp build/rootless/BegoneCIAPrefs prefs/Root.plist prefs/*.png $(PB)/
+	sed 's/@VERSION@/$(VERSION)/' prefs/Info.plist > $(PB)/Info.plist
+	chmod 755 $(PB) $(PB)/BegoneCIAPrefs && chmod 644 $(PB)/*.plist $(PB)/*.png $(PL)/*.plist
 	sed 's/@VERSION@/$(VERSION)/' control > pkg/DEBIAN/control && chmod 644 pkg/DEBIAN/control
 	dpkg-deb -Zxz --root-owner-group -b pkg BegoneCIAReworked_$(VERSION)_rootless_iphoneos-arm64.deb
 
