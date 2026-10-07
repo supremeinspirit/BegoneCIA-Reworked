@@ -1,0 +1,4 @@
+#!/bin/sh
+# The audio daemons only pick up the new tweak when they start; SpringBoard needs a respring
+killall -9 mediaserverd audiomxd corespeechd assistantd 2>/dev/null
+exit 0

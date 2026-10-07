@@ -1,0 +1,11 @@
+Package: com.supremeinspirit.begonecia
+Name: BegoneCIA Reworked
+Version: @VERSION@
+Architecture: iphoneos-arm64
+Description: Control Center toggle that blocks microphone, camera and location system-wide. With a settings pane to exclude apps and to pause blocking during calls.
+Depends: ellekit, com.opa334.ccsupport, preferenceloader, com.opa334.altlist
+Conflicts: me.nepeta.begonecia, com.johndie.begonecia
+Replaces: me.nepeta.begonecia, com.johndie.begonecia
+Maintainer: supremeinspirit
+Author: Nepeta <ominousness@protonmail.com>
+Section: Tweaks

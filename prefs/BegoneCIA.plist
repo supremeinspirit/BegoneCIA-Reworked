@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+	<key>entry</key><dict>
+		<key>cell</key><string>PSLinkCell</string>
+		<key>label</key><string>BegoneCIA</string>
+		<key>icon</key><string>BegoneCIA.png</string>
+	</dict>
+	<key>title</key><string>BegoneCIA</string>
+	<key>items</key><array>
+		<dict>
+			<key>cell</key><string>PSGroupCell</string>
+			<key>footerText</key><string>Blockiert Mikrofon, Kamera und Standort systemweit. Entspricht dem Schalter im Kontrollzentrum.</string>
+		</dict>
+		<dict>
+			<key>cell</key><string>PSSwitchCell</string>
+			<key>label</key><string>BegoneCIA aktiv</string>
+			<key>defaults</key><string>me.nepeta.begonecia</string>
+			<key>key</key><string>Enabled</string>
+			<key>default</key><false/>
+			<key>PostNotification</key><string>me.nepeta.begonecia/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key><string>PSGroupCell</string>
+			<key>label</key><string>Anrufe</string>
+			<key>footerText</key><string>Eingeschaltet: BegoneCIA pausiert, solange ein Anruf klingelt oder läuft, und blockiert danach wieder. Ausgeschaltet: BegoneCIA bleibt auch im Anruf aktiv. „Anrufe“ meint Telefon und Anruf-Apps wie WhatsApp, „FaceTime“ meint FaceTime Audio und Video.</string>
+		</dict>
+		<dict>
+			<key>cell</key><string>PSSwitchCell</string>
+			<key>label</key><string>Bei Anrufen pausieren</string>
+			<key>defaults</key><string>me.nepeta.begonecia</string>
+			<key>key</key><string>PauseOnCalls</string>
+			<key>default</key><false/>
+			<key>PostNotification</key><string>me.nepeta.begonecia/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key><string>PSSwitchCell</string>
+			<key>label</key><string>Bei FaceTime pausieren</string>
+			<key>defaults</key><string>me.nepeta.begonecia</string>
+			<key>key</key><string>PauseOnFaceTime</string>
+			<key>default</key><false/>
+			<key>PostNotification</key><string>me.nepeta.begonecia/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key><string>PSGroupCell</string>
+			<key>label</key><string>Ausnahmen</string>
+			<key>footerText</key><string>Ausgeschlossene Apps dürfen Kamera und Standort immer nutzen. Das Mikrofon ist frei, solange eine ausgeschlossene App im Vordergrund ist.</string>
+		</dict>
+		<dict>
+			<key>cell</key><string>PSLinkListCell</string>
+			<key>bundle</key><string>AltList</string>
+			<key>isController</key><true/>
+			<key>detail</key><string>ATLApplicationListMultiSelectionController</string>
+			<key>label</key><string>Ausgeschlossene Apps</string>
+			<key>defaults</key><string>me.nepeta.begonecia</string>
+			<key>key</key><string>ExcludedApps</string>
+			<key>defaultApplicationSwitchValue</key><false/>
+			<key>PostNotification</key><string>me.nepeta.begonecia/ReloadPrefs</string>
+			<key>sections</key><array>
+				<dict><key>sectionType</key><string>Visible</string></dict>
+			</array>
+			<key>useSearchBar</key><true/>
+			<key>alphabeticIndexingEnabled</key><true/>
+		</dict>
+	</array>
+</dict></plist>

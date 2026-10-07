@@ -1,0 +1,5 @@
+build/
+pkg/
+legacy-pkg/
+release/
+*.deb
