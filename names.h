@@ -13,14 +13,19 @@
 #define BC_KEY_PAUSE_CALLS "PauseOnCalls"
 #define BC_KEY_PAUSE_FACETIME "PauseOnFaceTime"
 #define BC_KEY_EXCLUDED "ExcludedApps"
+// Block without exceptions: no excluded apps, no pause for calls. Only counts while enabled.
+#define BC_KEY_FORCE "Force"
 
 // Posted after a preference was written; SpringBoard republishes the state
 #define BC_RELOAD BC_DOMAIN "/ReloadPrefs"
 // Posted by SpringBoard (or an excluded app) after one of the states below changed
 #define BC_CHANGED BC_DOMAIN "/Changed"
 
-// 1 while the user has BegoneCIA switched on (what the toggle shows)
+// What the user has switched on (what the toggle shows)
 #define BC_STATE BC_DOMAIN "/State"
+#define BC_STATE_ON 1
+// The Force switch; it is kept while BegoneCIA is off and only has an effect together with BC_STATE_ON
+#define BC_STATE_FORCE 2
 // What is actually enforced: differs from BC_STATE while paused for a call
 #define BC_LIVE BC_DOMAIN "/Live"
 #define BC_LIVE_ON 1

@@ -9,6 +9,7 @@
 //   - the audio daemons, where the microphone is muted for everybody, stop muting while an
 //     excluded app is in the foreground (the app announces itself through BC_BYPASS)
 //   - during a call SpringBoard publishes "not blocking" if the matching pause switch is on
+//   - with "Force" on, SpringBoard publishes no excluded apps and doesn't pause
 //
 // Written runtime style on purpose: no @implementation, no @"" and no CFSTR. The on-device
 // clang doesn't sign the isa of compiled classes and constant strings, and arm64e processes
@@ -403,18 +404,21 @@ static void publish(void) {
 	@autoreleasepool {
 		CFPreferencesAppSynchronize(domain());
 		BOOL enabled = preferenceBool(BC_KEY_ENABLED);
+		// Forced: nothing pauses it and no app is excluded
+		BOOL forced = enabled && preferenceBool(BC_KEY_FORCE);
 		unsigned calls = callsObserved ? currentCalls() : 0;
-		BOOL paused = ((calls & CALL_REGULAR) && preferenceBool(BC_KEY_PAUSE_CALLS)) || ((calls & CALL_FACETIME) && preferenceBool(BC_KEY_PAUSE_FACETIME));
+		BOOL paused = !forced && (((calls & CALL_REGULAR) && preferenceBool(BC_KEY_PAUSE_CALLS)) || ((calls & CALL_FACETIME) && preferenceBool(BC_KEY_PAUSE_FACETIME)));
+		uint64_t state = (enabled ? BC_STATE_ON : 0) | (preferenceBool(BC_KEY_FORCE) ? BC_STATE_FORCE : 0);
 		uint64_t live = BC_LIVE_VALID | (enabled && !paused ? BC_LIVE_ON : 0);
 
 		NSMutableSet *excluded = [NSMutableSet set];
-		id list = preference(BC_KEY_EXCLUDED);
+		id list = forced ? nil : preference(BC_KEY_EXCLUDED);
 		if ([list isKindOfClass:[NSArray class]]) {
 			for (id identifier in list) {
 				if ([identifier isKindOfClass:[NSString class]]) [excluded addObject:identifier];
 			}
 		}
-		if (enabled == publishedState && live == publishedLive && [excluded isEqualToSet:publishedExcluded]) return;
+		if (state == publishedState && live == publishedLive && [excluded isEqualToSet:publishedExcluded]) return;
 
 		for (NSString *identifier in [excludedTokens allKeys]) {
 			if (![excluded containsObject:identifier]) notify_set_state([[excludedTokens objectForKey:identifier] intValue], 0);
@@ -429,9 +433,9 @@ static void publish(void) {
 			}
 			notify_set_state([token intValue], 1);
 		}
-		notify_set_state(stateToken, enabled);
+		notify_set_state(stateToken, state);
 		notify_set_state(liveToken, live);
-		publishedState = enabled;
+		publishedState = state;
 		publishedLive = live;
 		[publishedExcluded release];
 		publishedExcluded = [excluded copy];

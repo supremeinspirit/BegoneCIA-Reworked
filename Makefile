@@ -1,5 +1,5 @@
 SHELL := /var/jb/bin/sh
-VERSION = 1.1.3
+VERSION = 1.2.0
 # The Control Center module needs the private ControlCenterUIKit stub and headers from Theos
 SDK ?= /var/jb/theos/sdks/iPhoneOS16.5.sdk
 CCINCLUDE ?= /var/jb/theos/vendor/include
@@ -7,7 +7,7 @@ COMMON = -isysroot $(SDK) -O2 -Wall -Wno-four-char-constants
 TWEAKFLAGS = $(COMMON) -fno-objc-arc -dynamiclib -framework Foundation -framework CoreFoundation \
 	-framework AudioToolbox -framework AVFoundation -framework CoreLocation
 MODULEFLAGS = $(COMMON) -I$(CCINCLUDE) -F$(SDK)/System/Library/PrivateFrameworks -fobjc-arc -bundle \
-	-framework UIKit -framework Foundation -framework ControlCenterUIKit
+	-framework UIKit -framework Foundation -framework CoreGraphics -framework ControlCenterUIKit
 # AltList is linked by path so that it is loaded together with the settings bundle
 ALTLIST ?= /var/jb/Library/Frameworks/AltList.framework/AltList
 PREFSFLAGS = $(COMMON) -fno-objc-arc -bundle -framework Foundation $(ALTLIST) -rpath /var/jb/Library/Frameworks

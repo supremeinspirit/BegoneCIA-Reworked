@@ -3,6 +3,7 @@
 Control Center toggle that blocks microphone, camera and location system-wide, with a settings pane:
 
 - **Excluded apps**: pick apps that are left alone.
+- **Force**: press the Control Center module firmly (or hold it) and it expands to two round buttons, BegoneCIA and Force. With Force on, BegoneCIA also blocks in excluded apps and during calls. Force is remembered when BegoneCIA is switched off and counts again when it is switched back on. The module is red while BegoneCIA is on and purple while Force is active.
 - **Pause during calls**: one switch for phone and call apps (WhatsApp and the like), one for FaceTime. Blocking stops while a call rings or runs and resumes afterwards. Both are off by default, so BegoneCIA stays active during calls until you switch them on.
 
 Based on BegoneCIA by Nepeta and its rootless port by John d_ie. The tweak was rewritten for this version; the blocking hooks are the same as in the rootless port 1.0.0.
@@ -22,16 +23,17 @@ It replaces `com.johndie.begonecia` and `me.nepeta.begonecia`. Respring after in
 
 | Device | iOS | Jailbreak | Build |
 | --- | --- | --- | --- |
-| iPhone 15 Pro Max | 17.3 | Dopamine (rootless) | rootless 1.1.3 |
-| iPhone 12 | 15.2.1 | rootless | rootless 1.1.3 |
-| iPhone X | 13.3 | rootful, Substitute | legacy rootful 1.1.3 |
+| iPhone 15 Pro Max | 17.3 | Dopamine (rootless) | rootless 1.2.0 |
+| iPhone 12 | 15.2.1 | rootless | rootless 1.2.0 |
+| iPhone X | 13.3 | rootful, Substitute | legacy rootful 1.2.0 |
 
-1.1.3 fixes the Excluded Apps list in Settings (empty on rootless, no switches on rootful). The tweak and the Control Center module are the same binaries as in 1.1.1.
+1.2.0 adds Force and the expanding Control Center module. 1.1.3 fixed the Excluded Apps list in Settings (empty on rootless, no switches on rootful).
 
 ## Limits
 
 - Camera and location are always free for an excluded app. The microphone is muted centrally in the audio daemons, so it is free only while an excluded app is in the foreground, and then for every app.
 - A paused call frees microphone, camera and location for everything until the call ends.
+- Force has no switch in Settings and none in the command line tool; it is set from Control Center only.
 - `begonecia on|off|toggle|status` does the same as the toggle from a shell.
 
 ## How it works
