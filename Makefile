@@ -1,5 +1,5 @@
 SHELL := /var/jb/bin/sh
-VERSION = 1.1.1
+VERSION = 1.1.2
 # The Control Center module needs the private ControlCenterUIKit stub and headers from Theos
 SDK ?= /var/jb/theos/sdks/iPhoneOS16.5.sdk
 CCINCLUDE ?= /var/jb/theos/vendor/include

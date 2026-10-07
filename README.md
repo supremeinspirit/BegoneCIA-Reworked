@@ -16,7 +16,7 @@ Add the source `https://supremeinspirit.github.io/supremeinspirit/` in Sileo or 
 | `BegoneCIAReworked_…_rootless_iphoneos-arm64.deb` | rootless, iOS 15 and later (arm64 and arm64e) | ElleKit, CCSupport, PreferenceLoader, AltList |
 | `BegoneCIAReworked_…_legacy-rootful_iphoneos-arm.deb` | rootful, iOS 13 and 14 (arm64 devices) | a Substrate-compatible injector, CCSupport, PreferenceLoader, AltList |
 
-It replaces `com.johndie.begonecia` and `me.nepeta.begonecia`. Respring after installing. The toggle keeps its place in Control Center; the settings are under Settings → BegoneCIA (labels are in German).
+It replaces `com.johndie.begonecia` and `me.nepeta.begonecia`. Respring after installing. The toggle keeps its place in Control Center; the settings are under Settings → BegoneCIA.
 
 ## Tested on
 
@@ -25,6 +25,8 @@ It replaces `com.johndie.begonecia` and `me.nepeta.begonecia`. Respring after in
 | iPhone 15 Pro Max | 17.3 | Dopamine (rootless) | rootless 1.1.1 |
 | iPhone 12 | 15.2.1 | rootless | rootless 1.1.1 |
 | iPhone X | 13.3 | rootful, Substitute | legacy rootful 1.1.1 |
+
+1.1.2 has the same binaries as 1.1.1; only the text of the settings pane changed (German to English).
 
 ## Limits
 

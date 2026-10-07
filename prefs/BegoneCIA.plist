@@ -10,11 +10,11 @@
 	<key>items</key><array>
 		<dict>
 			<key>cell</key><string>PSGroupCell</string>
-			<key>footerText</key><string>Blockiert Mikrofon, Kamera und Standort systemweit. Entspricht dem Schalter im Kontrollzentrum.</string>
+			<key>footerText</key><string>Blocks microphone, camera and location system-wide. Same as the toggle in Control Center.</string>
 		</dict>
 		<dict>
 			<key>cell</key><string>PSSwitchCell</string>
-			<key>label</key><string>BegoneCIA aktiv</string>
+			<key>label</key><string>BegoneCIA Enabled</string>
 			<key>defaults</key><string>me.nepeta.begonecia</string>
 			<key>key</key><string>Enabled</string>
 			<key>default</key><false/>
@@ -22,12 +22,12 @@
 		</dict>
 		<dict>
 			<key>cell</key><string>PSGroupCell</string>
-			<key>label</key><string>Anrufe</string>
-			<key>footerText</key><string>Eingeschaltet: BegoneCIA pausiert, solange ein Anruf klingelt oder läuft, und blockiert danach wieder. Ausgeschaltet: BegoneCIA bleibt auch im Anruf aktiv. „Anrufe“ meint Telefon und Anruf-Apps wie WhatsApp, „FaceTime“ meint FaceTime Audio und Video.</string>
+			<key>label</key><string>Calls</string>
+			<key>footerText</key><string>On: BegoneCIA pauses while a call is ringing or in progress and blocks again afterwards. Off: BegoneCIA stays active during calls. “Calls” means Phone and calling apps such as WhatsApp; “FaceTime” means FaceTime audio and video.</string>
 		</dict>
 		<dict>
 			<key>cell</key><string>PSSwitchCell</string>
-			<key>label</key><string>Bei Anrufen pausieren</string>
+			<key>label</key><string>Pause During Calls</string>
 			<key>defaults</key><string>me.nepeta.begonecia</string>
 			<key>key</key><string>PauseOnCalls</string>
 			<key>default</key><false/>
@@ -35,7 +35,7 @@
 		</dict>
 		<dict>
 			<key>cell</key><string>PSSwitchCell</string>
-			<key>label</key><string>Bei FaceTime pausieren</string>
+			<key>label</key><string>Pause During FaceTime</string>
 			<key>defaults</key><string>me.nepeta.begonecia</string>
 			<key>key</key><string>PauseOnFaceTime</string>
 			<key>default</key><false/>
@@ -43,15 +43,15 @@
 		</dict>
 		<dict>
 			<key>cell</key><string>PSGroupCell</string>
-			<key>label</key><string>Ausnahmen</string>
-			<key>footerText</key><string>Ausgeschlossene Apps dürfen Kamera und Standort immer nutzen. Das Mikrofon ist frei, solange eine ausgeschlossene App im Vordergrund ist.</string>
+			<key>label</key><string>Exceptions</string>
+			<key>footerText</key><string>Excluded apps can always use the camera and location. The microphone is unblocked while an excluded app is in the foreground.</string>
 		</dict>
 		<dict>
 			<key>cell</key><string>PSLinkListCell</string>
 			<key>bundle</key><string>AltList</string>
 			<key>isController</key><true/>
 			<key>detail</key><string>ATLApplicationListMultiSelectionController</string>
-			<key>label</key><string>Ausgeschlossene Apps</string>
+			<key>label</key><string>Excluded Apps</string>
 			<key>defaults</key><string>me.nepeta.begonecia</string>
 			<key>key</key><string>ExcludedApps</string>
 			<key>defaultApplicationSwitchValue</key><false/>
